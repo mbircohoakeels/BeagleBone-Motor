@@ -36,8 +36,10 @@ namespace abPWM {
                     cout << "Exception caught handling binary file : " << e.what( ) << endl;
                 }
             }
-            return 0;
+            return 1;
         }
+        else
+            return -1;
     }
 
     void PWMDevice::InitDevice( ) throw( PWMSetupException& ) {
@@ -82,7 +84,7 @@ namespace abPWM {
 
     long PWMDevice::GetCurrentReading( ValType _vt ) {
         this->ReadDevice( _vt );
-        if( this->CurrentReading.length() > 0 ) {
+        if( this->CurrentReading != "" ) {
             if( _vt == Run )
                 return ( this->CurrentReading.compare( "1" ) == 0 ) ? true : false;
             else if( _vt == Power_Control ) {
@@ -92,8 +94,6 @@ namespace abPWM {
             else
                 return stoi( this->CurrentReading );
         }
-        else
-            return 1;
     }
 
     char* PWMDevice::GetFilePath( ){
